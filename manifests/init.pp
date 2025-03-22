@@ -51,11 +51,8 @@ class puppet_run_scheduler (
   Pattern[/[0-2]\d:\d\d/]            $start_time                = '00:00',
   Puppet_run_scheduler::Run_interval $splaylimit                = $run_interval,
   Stdlib::Absolutepath               $posix_puppet_executable   = '/opt/puppetlabs/bin/puppet',
-  Optional[Stdlib::Absolutepath]     $windows_puppet_executable = undef,
+  Stdlib::Absolutepath               $windows_puppet_executable = '/UNDEF',
 ) {
-  unless $windows_puppet_executable {
-    $windows_puppet_executable = 'UNDEF'
-  }
   $interval_mins = puppet_run_scheduler::minutes($run_interval)
   $splaylimit_mins = puppet_run_scheduler::minutes($splaylimit)
 

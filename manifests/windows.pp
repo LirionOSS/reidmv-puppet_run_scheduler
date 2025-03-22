@@ -20,16 +20,16 @@
 #
 class puppet_run_scheduler::windows (
   String[1]                                          $scheduled_task_user     = 'system',
-  Optional[Stdlib::Absolutepath]                     $puppet_executable       = $puppet_run_scheduler::windows_puppet_executable,
+  Stdlib::Absolutepath                               $puppet_executable       = $puppet_run_scheduler::windows_puppet_executable,
   Boolean                                            $manage_lastrun_acls     = true,
   Optional[Variant[String[1], Sensitive[String[1]]]] $scheduled_task_password = undef,
 ) {
   assert_private()
-  unless $windows_puppet_executable {
+  if $puppet_executable == '/UNDEF' {
     if 'Vox Pupuli' in $facts['env_windows_installdir'] {
-      $windows_puppet_executable = 'C:\\Program Files\\Vox Pupuli\OpenVox\\bin\\puppet.bat'
+      $puppet_executable = 'C:\\Program Files\\Vox Pupuli\OpenVox\\bin\\puppet.bat'
     } else {
-      $windows_puppet_executable = 'C:\\Program Files\\Puppet Labs\\Puppet\\bin\\puppet.bat'
+      $puppet_executable = 'C:\\Program Files\\Puppet Labs\\Puppet\\bin\\puppet.bat'
     }
   }
 
