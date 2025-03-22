@@ -27,10 +27,12 @@ class puppet_run_scheduler::windows (
   assert_private()
   if $puppet_executable == '/UNDEF' {
     if 'Vox Pupuli' in $facts['env_windows_installdir'] {
-      $puppet_executable = 'C:\\Program Files\\Vox Pupuli\OpenVox\\bin\\puppet.bat'
+      $real_puppet_executable = 'C:\\Program Files\\Vox Pupuli\OpenVox\\bin\\puppet.bat'
     } else {
-      $puppet_executable = 'C:\\Program Files\\Puppet Labs\\Puppet\\bin\\puppet.bat'
+      $real_puppet_executable = 'C:\\Program Files\\Puppet Labs\\Puppet\\bin\\puppet.bat'
     }
+  } else {
+    $real_puppet_executable = $puppet_executable
   }
 
   $interval_mins = $puppet_run_scheduler::interval_mins
@@ -55,7 +57,7 @@ class puppet_run_scheduler::windows (
 
   scheduled_task { 'puppet-run-scheduler':
     ensure        => $puppet_run_scheduler::ensure,
-    command       => $puppet_executable, # TODO: change this to $basename when scheduled_task supports it
+    command       => $real_puppet_executable, # TODO: change this to $basename when scheduled_task supports it
     working_dir   => $dirname,
     arguments     => "agent ${puppet_run_scheduler::agent_flags}",
     enabled       => true,
