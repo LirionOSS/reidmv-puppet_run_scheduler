@@ -29,7 +29,7 @@ class puppet_run_scheduler::windows (
     if 'Vox Pupuli' in $facts['env_windows_installdir'] {
       $real_puppet_executable = 'C:\\Program Files\\Vox Pupuli\OpenVox\\bin\\puppet.bat'
     } else {
-      $real_puppet_executable = 'C:\\Program Files\\Puppet Labs\\Puppet\\bin\\puppet.bat'
+      $real_puppet_executable = 'C:\\Program Files\\PuppetLabs\\Puppet\\bin\\puppet.bat'
     }
   } else {
     $real_puppet_executable = $puppet_executable
